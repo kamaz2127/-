@@ -1,0 +1,55 @@
+import sqlite3
+import random
+
+conn2 = sqlite3.connect('GamesG.db')
+cur = conn2.cursor()
+
+#cursor.execute('''CREATE TABLE game (
+    #ID_game INT,
+    #Name_game TEXT,
+    #Genre_game TEXT,
+    #Year_game INT,
+    #Name_studio TEXT    
+    #) ''')
+
+iD = 13
+row = cur.fetchall()
+
+x = input('Начать работу? 1 - Да 2 - Нет --- ')
+
+if x == '1':
+    cur.execute("SELECT rowid, * FROM game")
+    for row in cur:
+        print(row)
+    y = input('Выберите дейтсвие 1 - Добавить данные 2 - Удалить данные --- ')
+    while y == '1':
+        iD = iD + 1
+        name = input('Название игры:')
+        genre = input('Жанр игры:')
+        year = int(input('Год создания игры:'))
+        studio = input('Студия-производитель:')
+        cur.execute('''INSERT INTO game VALUES (?, ?, ?, ?, ?)''' , [iD, name, genre, year, studio])
+        conn2.commit()
+        cur.execute("SELECT rowid, * FROM game")
+        for row in cur:
+            print(row)
+        y = input('Выберите дейтсвие 1 - Добавить данные 2 - Удалить данные --- ')
+    while y == '2':
+        cur.execute("SELECT rowid, * FROM game")
+        for row in cur:
+            print(row)
+else:
+    k = input('Хотите рекомендацию? 1 - да 2 - нет --- ')
+    if k == '1':
+        pass
+
+
+#cur.execute('''INSERT INTO game VALUES(2, "Roblox", "Kazual", 2011, "studio RB")''')
+#cur.execute("SELECT * FROM game")
+
+#cur.execute('DELETE FROM game')
+
+
+conn2.commit()
+conn2.close()
+
